@@ -15,5 +15,22 @@ namespace Store.Domain.StoreContext.Entities
         public DateTime CreateDate { get; private set; }
         public DateTime EstimateDeliveryDate { get; private set; }
         public EDeliveryStatus Status { get; private set; }
+
+        public void Ship()
+        {
+            // If Estimated Date for past, dont delivery
+            Status = EDeliveryStatus.Shipped;
+        }
+
+        public void Cancel()
+        {
+            // If status is not delivered, cancel the order
+            if (Status != EDeliveryStatus.Delivered)
+            {
+                // Cancel An Order
+                Status = EDeliveryStatus.Canceled;
+            }
+
+        }
     }
 }
