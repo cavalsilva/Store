@@ -22,10 +22,10 @@ namespace Store.Tests
             var monitor = new Product("Monitor", "Dell D Series LED-Lit Monitor 31.5", "monitor.png", 140.99M, 12);
 
             var order = new Order(c);
-            order.AddItem(new OrderItem(mouse, 5));
-            order.AddItem(new OrderItem(keyboard, 5));
-            order.AddItem(new OrderItem(printer, 5));
-            order.AddItem(new OrderItem(monitor, 5));
+            order.AddItem(mouse, 5);
+            order.AddItem(keyboard, 5);
+            order.AddItem(printer, 5);
+            order.AddItem(monitor, 5);
 
             // Create Order
             order.Place();
