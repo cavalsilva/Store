@@ -1,21 +1,22 @@
 using System;
+using FluentValidator;
 
 namespace Store.Domain.StoreContext.Entities
 {
-    public class Product
+    public class Product : Notifiable
     {
         public Product(
             string title,
             string description,
             string image,
             decimal price,
-            decimal quantityOnHand)
+            decimal quantity)
         {
             Title = title;
             Description = description;
             Image = image;
             Price = price;
-            QuantityOnHand = quantityOnHand;
+            QuantityOnHand = quantity;
         }
 
         public string Title { get; private set; }

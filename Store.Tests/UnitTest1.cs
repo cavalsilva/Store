@@ -30,6 +30,9 @@ namespace Store.Tests
             // Create Order
             order.Place();
 
+            // Verify if order is valid
+            var valid = order.IsValid;
+
             // Simulate Payment
             order.Pay();
 

@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using FluentValidator;
 using Store.Domain.StoreContext.Enums;
 
 namespace Store.Domain.StoreContext.Entities
 {
-    public class Order
+    public class Order : Notifiable
     {
         private readonly IList<OrderItem> _items;
         private readonly IList<Delivery> _deliveries;
@@ -26,13 +27,16 @@ namespace Store.Domain.StoreContext.Entities
         public IReadOnlyCollection<OrderItem> Items => _items.ToArray();
         public IReadOnlyCollection<Delivery> Deliveries => _deliveries.ToArray();
 
-        public void AddItem(OrderItem item)
+        public void AddItem(Product product, decimal quantity)
         {
             // Validate Item
-            
+            if (quantity > product.QuantityOnHand)
+                AddNotification("OrderItem", $"Product {product.Title} has no {quantity} on stock");
+
             // Add to Order
+            var item = new OrderItem(product, quantity);
             _items.Add(item);
-        }
+        }        
 
         // To Place An Order
         public void Place()
@@ -41,6 +45,9 @@ namespace Store.Domain.StoreContext.Entities
             Number = Guid.NewGuid().ToString().Replace("-", "").Substring(0, 8).ToUpper();
 
             // Validate
+            if (_items.Count == 0)
+                AddNotification("Order", "This order has no items");
+
         }
 
         // Paid An Order
