@@ -125,8 +125,6 @@ namespace Store.Tests.Entities
             {
                 Assert.AreEqual(EDeliveryStatus.Canceled, x.Status);
             }
-        }        
-
-
+        }
     }
 }
