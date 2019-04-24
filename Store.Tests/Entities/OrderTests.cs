@@ -14,6 +14,7 @@ namespace Store.Tests.Entities
         private Product _monitor;
         private Customer _customer;
         private Order _order;
+        
         public OrderTests()
         {
             var _name = new Name("Ricardo", "Silva");
