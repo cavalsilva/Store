@@ -1,6 +1,6 @@
 namespace Store.Domain.StoreContext.Services
 {
-    public interface IEmailServices
+    public interface IEmailService
     {
         void Send(string to, string from, string subject, string body);
     }
