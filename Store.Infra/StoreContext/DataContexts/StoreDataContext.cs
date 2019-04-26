@@ -5,11 +5,11 @@ using Store.Shared;
 
 namespace Store.Infra.StoreContext.DataContexts
 {
-    public class DataContext : IDisposable
+    public class StoreDataContext : IDisposable
     {
         public SqlConnection Connection { get; set; }
 
-        public DataContext()
+        public StoreDataContext()
         {
             Connection = new SqlConnection(Settings.ConnectionString);
             Connection.Open();

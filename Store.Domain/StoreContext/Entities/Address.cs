@@ -23,7 +23,7 @@ namespace Store.Domain.StoreContext.Entities
             City = city;
             State = state;
             Country = country;
-            Zipcode = zipcode;
+            ZipCode = zipcode;
             Type = type;
         }
 
@@ -34,7 +34,7 @@ namespace Store.Domain.StoreContext.Entities
         public string City { get; private set; }
         public string State { get; private set; }
         public string Country { get; private set; }
-        public string Zipcode { get; private set; }
+        public string ZipCode { get; private set; }
         public EAddressType Type { get; private set; }
 
         public override string ToString()
