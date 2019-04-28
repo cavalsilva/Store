@@ -24,28 +24,35 @@ namespace Store.Api.Controllers
         }
 
         [HttpGet]
-        [Route("customers")]
+        [Route("v1/customers")]
         public IEnumerable<ListCustomerQueryResult> Get()
         {
             return _repository.Get();
         }
 
         [HttpGet]
-        [Route("customers/{id}")]
+        [Route("v1/customers/{id}")]
         public GetCustomerQueryResult GetById(Guid id)
         {
             return _repository.Get(id);
         }
 
         [HttpGet]
-        [Route("customers/{id}/orders")]
+        [Route("v2/customers/{document}")]
+        public GetCustomerQueryResult GetByDocument(Guid document)
+        {
+            return _repository.Get(document);
+        }        
+
+        [HttpGet]
+        [Route("v1/customers/{id}/orders")]
         public IEnumerable<ListCustomerOrdersQueryResult> GetOrders(Guid id)
         {
             return _repository.GetOrders(id);
         }
 
         [HttpPost]
-        [Route("customers")]
+        [Route("v1/customers")]
         public ICommandResult Post([FromBody]CreateCustomerCommand command)
         {
             var result = (CreateCustomerCommandResult)_handler.Handle(command);
@@ -55,7 +62,7 @@ namespace Store.Api.Controllers
         /*
         // TODO: Criar UpdateCustomerCommand
         [HttpPut]
-        [Route("customers/{id}")]
+        [Route("v1/customers/{id}")]
         public Customer Put([FromBody]CreateCustomerCommand command)
         {
             var name = new Name(command.FirstName, command.LastName);
@@ -68,7 +75,7 @@ namespace Store.Api.Controllers
 
         // TODO: Criar DeleteCustomerCommand
         [HttpDelete]
-        [Route("customers/{id}")]
+        [Route("v1/customers/{id}")]
         public object Delete(Guid id)
         {
             return new { message = "Cliente removido com sucesso!" };
