@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Elmah.Io.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -35,6 +36,12 @@ namespace Store.Api
             {
                 x.SwaggerDoc("v1", new Info { Title = "Cavalsilva Store", Version = "v1" });
             });
+
+            services.AddElmahIo(o =>
+            {
+                o.ApiKey = "9d471b02163744c997fef2f2a7ee9cc2";
+                o.LogId = new Guid("d76a3261-4a19-49a4-b104-8315a395d3fd");
+            });            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,7 +57,9 @@ namespace Store.Api
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cavalsilva Store - V1");
-            });            
+            });
+
+            app.UseElmahIo();
         }
     }
 }
