@@ -6,6 +6,9 @@ using Store.Domain.StoreContext.Entities;
 using Store.Domain.StoreContext.ValueObjects;
 using Store.Domain.StoreContext.Queries;
 using Store.Domain.StoreContext.Repositories;
+using Store.Domain.StoreContext.Handlers;
+using Store.Shared.Commands;
+using Store.Domain.StoreContext.CustomerCommands.Outputs;
 
 namespace Store.Api.Controllers
 {
@@ -13,9 +16,11 @@ namespace Store.Api.Controllers
     {
 
         private readonly ICustomerRepository _repository;
-        public CustomerController(ICustomerRepository repository)
+        private readonly CustomerHandler _handler;
+        public CustomerController(ICustomerRepository repository, CustomerHandler handler)
         {
             _repository = repository;
+            _handler =  handler;
         }
 
         [HttpGet]
@@ -41,16 +46,14 @@ namespace Store.Api.Controllers
 
         [HttpPost]
         [Route("customers")]
-        public Customer Post([FromBody]CreateCustomerCommand command)
+        public ICommandResult Post([FromBody]CreateCustomerCommand command)
         {
-            var name = new Name(command.FirstName, command.LastName);
-            var document = new Document(command.Document);
-            var email = new Email(command.Email);
-            var customer = new Customer(name, document, email, command.Phone);
-
-            return customer;
+            var result = (CreateCustomerCommandResult)_handler.Handle(command);
+            return result;
         }
 
+        /*
+        // TODO: Criar UpdateCustomerCommand
         [HttpPut]
         [Route("customers/{id}")]
         public Customer Put([FromBody]CreateCustomerCommand command)
@@ -63,11 +66,13 @@ namespace Store.Api.Controllers
             return customer;
         }
 
+        // TODO: Criar DeleteCustomerCommand
         [HttpDelete]
         [Route("customers/{id}")]
         public object Delete(Guid id)
         {
             return new { message = "Cliente removido com sucesso!" };
         }
+        */
     }
 }
