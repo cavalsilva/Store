@@ -1,13 +1,18 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Store.Api.Controllers
 {
     public class HomeController : Controller
     {
+        [HttpGet]
         [Route("")]
-        public string Get()
+        // [Route("clientes")] // Listar todos os clientes
+        // [Route("clientes/2587")] // Listar o cliente 2587
+        // [Route("clientes/2587/pedidos")] // Pedidos do cliente 2587
+        public object Get()
         {
-            return "Hello World";
+            return new { version = "Version 0.0.2" };
         }
     }
 }

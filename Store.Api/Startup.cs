@@ -12,6 +12,7 @@ using Store.Domain.StoreContext.Services;
 using Store.Infra.Repositories;
 using Store.Infra.Services;
 using Store.Infra.StoreContext.DataContexts;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace Store.Api
 {
@@ -29,6 +30,11 @@ namespace Store.Api
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IEmailService, EmailService>();
             services.AddTransient<CustomerHandler, CustomerHandler>();
+
+            services.AddSwaggerGen(x =>
+            {
+                x.SwaggerDoc("v1", new Info { Title = "Cavalsilva Store", Version = "v1" });
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,8 +44,13 @@ namespace Store.Api
                 app.UseDeveloperExceptionPage();
 
             app.UseMvc();                
-
             app.UseResponseCompression();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cavalsilva Store - V1");
+            });            
         }
     }
 }
