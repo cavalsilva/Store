@@ -10,8 +10,8 @@ using Store.Shared.Commands;
 
 namespace Store.Domain.StoreContext.Handlers
 {
-    public class CustomerHandler : 
-        Notifiable, 
+    public class CustomerHandler :
+        Notifiable,
         ICommandHandler<CreateCustomerCommand>,
         ICommandHandler<AddAddressCommand>
     {
@@ -27,13 +27,13 @@ namespace Store.Domain.StoreContext.Handlers
         public ICommandResult Handle(CreateCustomerCommand command)
         {
             // Verificar se o CPF já existe na base
-            if(_repository.CheckDocument(command.Document))
+            if (_repository.CheckDocument(command.Document))
                 AddNotification("Document", "Este CPF já está em uso");
 
             // Verificar se o Email já existe na base
-            if(_repository.CheckEmail(command.Email))
+            if (_repository.CheckEmail(command.Email))
                 AddNotification("Email", "Este E-mail já está em uso");
-          
+
             // Criar os VOs
             var name = new Name(command.FirstName, command.LastName);
             var document = new Document(command.Document);
@@ -48,8 +48,8 @@ namespace Store.Domain.StoreContext.Handlers
             AddNotifications(email.Notifications);
             AddNotifications(customer.Notifications);
 
-            if(Invalid)
-                return null;
+            if (Invalid)
+                return new CommandResult(false, "Por favor corrija os campos abaixo", Notifications);
 
             // Persistir o cliente
             _repository.Save(customer);
@@ -58,7 +58,12 @@ namespace Store.Domain.StoreContext.Handlers
             _emailService.Send(email.Address, "ricardocavalcantesilva@gmail.com", "Bem vindo", "Seja bem vindo a Cavalsilva Store!");
 
             // Retornar o resultado para tela
-            return new CreateCustomerCommandResult(customer.Id, name.ToString(), email.Address);
+            return new CommandResult(true, "Bem vindo a Store", new
+            {
+                Id = customer.Id,
+                Name = name.ToString(),
+                Email = email.Address
+            });
         }
 
         public ICommandResult Handle(AddAddressCommand command)
