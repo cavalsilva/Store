@@ -14,15 +14,26 @@ using Store.Infra.Repositories;
 using Store.Infra.Services;
 using Store.Infra.StoreContext.DataContexts;
 using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.Extensions.Configuration;
+using System.IO;
+using Store.Shared;
 
 namespace Store.Api
 {
     public class Startup
     {
+        public static IConfiguration Configuration { get; set; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            Configuration = builder.Build();
+
             services.AddMvc();
 
             services.AddResponseCompression();
@@ -41,7 +52,9 @@ namespace Store.Api
             {
                 o.ApiKey = "9d471b02163744c997fef2f2a7ee9cc2";
                 o.LogId = new Guid("d76a3261-4a19-49a4-b104-8315a395d3fd");
-            });            
+            }); 
+
+            Settings.ConnectionString = $"{Configuration["connectionString"]}";
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
