@@ -28,12 +28,14 @@ namespace Store.Api
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            // TODO: Incluir JSON e deploy Azure
+            /*
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
 
             Configuration = builder.Build();
-
+            */
             services.AddMvc();
 
             services.AddResponseCompression();
@@ -54,7 +56,7 @@ namespace Store.Api
                 o.LogId = new Guid("d76a3261-4a19-49a4-b104-8315a395d3fd");
             }); 
 
-            Settings.ConnectionString = $"{Configuration["connectionString"]}";
+            //Settings.ConnectionString = $"{Configuration["connectionString"]}";
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
